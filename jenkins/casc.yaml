@@ -4,11 +4,19 @@ unclassified:
 
 jobs:
   - script: >
-      multibranchPipelineJob('Git-CI') {
-          branchSources {
-              git {
-                  id = 'ci'
-                  remote('https://github.com/znhv/sber_test.git')
-              }
+      job("Git-CI") {
+        scm {
+          git {
+            remote {
+              url('https://github.com/znhv/sber_test.git')
+            }
+            extensions {
+              cleanAfterCheckout()
+            }
           }
+        }
+        triggers {
+            scm('15/H * * * *')
+            githubPush()
+        }
       }
