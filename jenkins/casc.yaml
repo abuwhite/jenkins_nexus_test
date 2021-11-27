@@ -4,11 +4,25 @@ unclassified:
 
 jobs:
   - script: >
-      job("Sber-CI") {
-        scm {
-          github('znhv/sber_test', 'master')
-        }
-        triggers {
-            cron('/1 * * * *')
-        }
+      multibranchPipelineJob('configuration-as-code') {
+          branchSources {
+              git {
+                  id = 'configuration-as-code'
+                  remote('https://github.com/znhv/sber_test.git')
+              }
+          }
       }
+  - file: ./jobdsl/job.groovy
+#  - script: >
+#      pipelineJob('product-job') {
+#        definition {
+#            pipelineJob('example') {
+#            definition {
+#                cps {
+#                    script(readFileFromWorkspace('pipeline.groovy'))
+#                    sandbox()
+#                }
+#            }
+#          }
+#        }
+#      }

@@ -21,6 +21,7 @@ nexus-artifact-uploader:latest
 mailer:latest
 matrix-auth:latest
 pam-auth:latest
+python:latest
 pipeline-github-lib:latest
 pipeline-stage-view:latest
 ssh-slaves:latest
