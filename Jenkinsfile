@@ -26,21 +26,21 @@ pipeline {
         }
         stage('publish to nexus') {
             steps {
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: 'my.nexus.address',
-                    groupId: 'com.example',
-                    version: version,
-                    repository: 'RepositoryName',
-                    credentialsId: 'CredentialsId',
-                    artifacts: [
-                        [artifactId: projectName,
-                         classifier: '',
-                         file: 'my-service-' + version + '.jar',
-                         type: 'jar']
-                    ]
-                )
+                nexusArtifactUploader {
+                    nexusVersion('nexus3')
+                    protocol('http')
+                    nexusUrl('localhost:18081/nexus')
+                    groupId('sp.sd')
+                    version('2.4')
+                    repository('NexusArtifactUploader')
+                    credentialsId('nexus-credentials')
+                    artifact {
+                        artifactId('nexus-artifact-uploader')
+                        type('jar')
+                        classifier('debug')
+                        file('nexus-artifact-uploader.jar')
+                    }
+                }
             }
         }
     }

@@ -12,17 +12,3 @@ jobs:
               }
           }
       }
-  - file: ./jobdsl/job.groovy
-#  - script: >
-#      pipelineJob('product-job') {
-#        definition {
-#            pipelineJob('example') {
-#            definition {
-#                cps {
-#                    script(readFileFromWorkspace('pipeline.groovy'))
-#                    sandbox()
-#                }
-#            }
-#          }
-#        }
-#      }
