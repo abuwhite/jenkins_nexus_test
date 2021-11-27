@@ -1,0 +1,14 @@
+unclassified:
+  location:
+    url: http://localhost:8080/
+
+jobs:
+  - script: >
+      multibranchPipelineJob('Git-CI') {
+          branchSources {
+              git {
+                  id = 'ci'
+                  remote('https://github.com/znhv/sber.git')
+              }
+          }
+      }
