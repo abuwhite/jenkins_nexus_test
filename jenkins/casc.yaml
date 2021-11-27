@@ -8,7 +8,7 @@ jobs:
           branchSources {
               git {
                   id = 'ci'
-                  remote('https://github.com/znhv/sber.git')
+                  remote('https://github.com/znhv/sber_test.git')
               }
           }
       }
