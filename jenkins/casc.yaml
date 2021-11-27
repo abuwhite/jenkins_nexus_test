@@ -6,17 +6,9 @@ jobs:
   - script: >
       job("Sber-CI") {
         scm {
-          git {
-            remote {
-              url('https://github.com/znhv/sber_test.git')
-            }
-            extensions {
-              cleanAfterCheckout()
-            }
-          }
+          github('github.com/znhv/sber_test', 'master')
         }
         triggers {
             cron('/2 * * * *')
-            githubPush()
         }
       }
