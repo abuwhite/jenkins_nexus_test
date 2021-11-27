@@ -27,13 +27,13 @@ pipeline {
         stage('publish to nexus') {
             steps {
                 nexusArtifactUploader {
-                    nexusVersion: 'nexus3'
-                    protocol: 'http'
-                    nexusUrl: 'localhost:18081/nexus'
-                    groupId: 'sp.sd'
-                    version: '2.4'
-                    repository: 'NexusArtifactUploader'
-                    credentialsId: 'nexus-credentials'
+                    nexusVersion: nexus3,
+                    protocol: http,
+                    nexusUrl: localhost:18081/nexus,
+                    groupId: sp.sd,
+                    version: 2.4,
+                    repository: NexusArtifactUploader,
+                    credentialsId: nexus-credentials,
                     artifacts: {
                         artifactId('nexus-artifact-uploader')
                         type('jar')
