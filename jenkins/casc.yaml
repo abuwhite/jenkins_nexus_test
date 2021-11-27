@@ -16,7 +16,7 @@ jobs:
           }
         }
         triggers {
-            scm('15/H * * * *')
+            scm('2/M * * * *')
             githubPush()
         }
       }
