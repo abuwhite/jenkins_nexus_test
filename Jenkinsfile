@@ -40,8 +40,7 @@ pipeline {
                          file: 'my-service-' + version + '.jar',
                          type: 'jar']
                     ]
-                 )
-              }
+                )
             }
         }
     }
