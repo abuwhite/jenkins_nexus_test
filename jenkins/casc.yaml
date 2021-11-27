@@ -6,9 +6,9 @@ jobs:
   - script: >
       job("Sber-CI") {
         scm {
-          github('github.com/znhv/sber_test', 'master')
+          github('znhv/sber_test', 'master')
         }
         triggers {
-            cron('/2 * * * *')
+            cron('/1 * * * *')
         }
       }
