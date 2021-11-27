@@ -24,5 +24,21 @@ pipeline {
                 }
             }
         }
+        stage('publish to nexus') {
+            steps {
+                nexusArtifactUploader {
+                    nexusVersion('nexus3')
+                    protocol('http')
+                    nexusUrl('localhost:8081/nexus')
+                    repository('NexusArtifactUploader')
+                    artifact {
+                        artifactId('nexus-artifact-uploader')
+                        type('python')
+                        classifier('debug')
+                        file('main.py')
+                    }
+                }
+            }
+        }
     }
 }

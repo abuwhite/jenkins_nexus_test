@@ -17,6 +17,7 @@ git:latest
 github-branch-source:latest
 gradle:latest
 ldap:latest
+nexus-artifact-uploader:latest
 mailer:latest
 matrix-auth:latest
 pam-auth:latest

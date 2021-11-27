@@ -6,6 +6,15 @@ volumes:
   nexus-data:
   jenkins-data:
 services:
+  nexus:
+    image: klo2k/nexus3
+    restart: always
+    ports:
+      - "18081:8081"
+    networks:
+      - prodnetwork
+    volumes:
+      - nexus-data:/nexus-data
   jenkins:
     build: ./jenkins
     restart: always
@@ -17,3 +26,5 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
       - jenkins-data:/var/lib/jenkins/
+    depends_on:
+      - nexus
