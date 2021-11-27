@@ -4,7 +4,7 @@ unclassified:
 
 jobs:
   - script: >
-      job("Git-CI") {
+      job("Sber-CI") {
         scm {
           git {
             remote {
