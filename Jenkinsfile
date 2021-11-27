@@ -26,8 +26,7 @@ pipeline {
         }
         stage('publish to nexus') {
             steps {
-                script {
-                    nexusArtifactUploader(
+                nexusArtifactUploader(
                         nexusVersion: 'nexus3',
                         protocol: 'http',
                         nexusUrl: 'my.nexus.address',
@@ -42,7 +41,6 @@ pipeline {
                              type: 'jar']
                         ]
                      )
-                }
             }
         }
     }
