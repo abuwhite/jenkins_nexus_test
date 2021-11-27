@@ -16,7 +16,7 @@ pipeline {
             post {
                 success {
                     archiveArtifacts allowEmptyArchive: true,
-                    artifacts: '**',
+                    artifacts: '*.py',
                     caseSensitive: false,
                     defaultExcludes: false,
                     followSymlinks: false,
