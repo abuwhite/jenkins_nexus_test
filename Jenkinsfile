@@ -1,46 +1,78 @@
 pipeline {
     agent any
+
+    environment {
+        // This can be nexus3 or nexus2
+        NEXUS_VERSION = "nexus3"
+        // This can be http or https
+        NEXUS_PROTOCOL = "http"
+        // Where your Nexus is running. 'nexus-3' is defined in the docker-compose file
+        NEXUS_URL = "my-nexus-server/nexus"
+        // Repository where we will upload the artifact
+        NEXUS_REPOSITORY = "maven-snapshots"
+        // Jenkins credential id to authenticate to Nexus OSS
+        NEXUS_CREDENTIAL_ID = "Nexus"
+    }
+
     stages {
-        stage('Build') {
-            agent {
-                docker {
-                    image 'python:2-alpine'
-                }
-            }
-
+        stage('Clone') {
             steps {
-                git branch: 'main', url: 'https://github.com/znhv/hello_world'
-                sh 'python main.py'
-            }
-
-            post {
-                success {
-                    archiveArtifacts allowEmptyArchive: true,
-                    artifacts: '*.py',
-                    caseSensitive: false,
-                    defaultExcludes: false,
-                    followSymlinks: false,
-                    onlyIfSuccessful: true
+                withCredentials([usernamePassword(credentialsId: 'Bitbucket', usernameVariable: 'username', passwordVariable: 'password')]) {
+                    git "https://${username}:${password}@bitbucket.org/${username}/greet.git"
                 }
             }
         }
-        stage('publish to nexus') {
+        stage("Build") {
             steps {
-                nexusArtifactUploader(
-                    nexusVersion: 'nexus3',
-                    protocol: 'http',
-                    nexusUrl: 'my.nexus.address',
-                    groupId: 'com.example',
-                    version: version,
-                    repository: 'RepositoryName',
-                    credentialsId: 'CredentialsId',
-                    artifacts: [
-                        [artifactId: projectName,
-                         classifier: '',
-                         file: 'my-service-' + version + '.jar',
-                         type: 'jar']
-                    ]
-                 )
+                script {
+                    sh "mvn clean install -DskipTests=true"
+                }
+            }
+        }
+        stage('Publish') {
+            steps {
+                script {
+                    // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
+                    pom = readMavenPom file: "pom.xml";
+                    // Find built artifact under target folder
+                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                    // Print some info from the artifact found
+                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
+                    // Extract the path from the File found
+                    artifactPath = filesByGlob[0].path;
+                    // Assign to a boolean response verifying If the artifact name exists
+                    artifactExists = fileExists artifactPath;
+
+                    if(artifactExists) {
+                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
+
+                        nexusArtifactUploader(
+                            nexusVersion: NEXUS_VERSION,
+                            protocol: NEXUS_PROTOCOL,
+                            nexusUrl: NEXUS_URL,
+                            groupId: pom.groupId,
+                            version: pom.version,
+                            repository: NEXUS_REPOSITORY,
+                            credentialsId: NEXUS_CREDENTIAL_ID,
+                            artifacts: [
+                                // Artifact generated such as .jar, .ear and .war files.
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: artifactPath,
+                                type: pom.packaging],
+
+                                // Lets upload the pom.xml file for additional information for Transitive dependencies
+                                [artifactId: pom.artifactId,
+                                classifier: '',
+                                file: "pom.xml",
+                                type: "pom"]
+                            ]
+                        );
+
+                    } else {
+                        error "*** File: ${artifactPath}, could not be found";
+                    }
+                }
             }
         }
     }

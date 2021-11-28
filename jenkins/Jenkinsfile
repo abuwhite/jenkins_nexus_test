@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
     stages {
         stage('Build') {
             agent {
@@ -26,21 +26,21 @@ pipeline {
         }
         stage('publish to nexus') {
             steps {
-                nexusArtifactUploader {
-                nexusVersion('nexus3')
-                protocol('http')
-                nexusUrl('localhost:8081/nexus3')
-                groupId('sp.sd')
-                version('2.4')
-                repository('NexusArtifactUploader')
-                credentialsId('44620c50-1589-4617-a677-7563985e46e1')
-                artifact {
-                    artifactId('nexus-artifact-uploader')
-                    type('py')
-                    classifier('debug')
-                    file('main.py')
-                }
-              }
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: 'localhost:18001/nexus',
+                    groupId: 'com.example',
+                    version: version,
+                    repository: 'RepositoryName',
+                    credentialsId: 'CredentialsId',
+                    artifacts: [
+                        [artifactId: projectName,
+                         classifier: '',
+                         file: 'my-service-' + version + '.py',
+                         type: 'py']
+                    ]
+                 )
             }
         }
     }
