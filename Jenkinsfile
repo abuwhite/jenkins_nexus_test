@@ -17,15 +17,18 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'Bitbucket', usernameVariable: 'username', passwordVariable: 'password')]) {
-                    git "https://${username}:${password}@bitbucket.org/${username}/greet.git"
-                }
+                git branch: 'main', url: 'https://github.com/znhv/hello_world'
             }
         }
         stage("Build") {
+            agent {
+                docker {
+                    image 'python:2-alpine'
+                }
+            }
             steps {
                 script {
-                    sh "mvn clean install -DskipTests=true"
+                    sh 'python main.py'
                 }
             }
         }
