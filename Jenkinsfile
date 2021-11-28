@@ -1,83 +1,48 @@
 pipeline {
     agent any
-
-    environment {
-        // This can be nexus3 or nexus2
-        NEXUS_VERSION = "nexus3"
-        // This can be http or https
-        NEXUS_PROTOCOL = "http"
-        // Where your Nexus is running. 'nexus-3' is defined in the docker-compose file
-        NEXUS_URL = "my-nexus-server/nexus"
-        // Repository where we will upload the artifact
-        NEXUS_REPOSITORY = "maven-snapshots"
-        // Jenkins credential id to authenticate to Nexus OSS
-        NEXUS_CREDENTIAL_ID = "Nexus"
-    }
-
     stages {
-        stage('Clone') {
-            steps {
-                git branch: 'main', url: 'https://github.com/znhv/hello_world'
-            }
-        }
-        stage("Build") {
+        stage('Build') {
             agent {
                 docker {
                     image 'python:2-alpine'
                 }
             }
+
             steps {
-                script {
-                    git branch: 'main', url: 'https://github.com/znhv/hello_world'
-                    sh 'python main.py'
+                git branch: 'main', url: 'https://github.com/znhv/hello_world'
+            }
+
+            post {
+                success {
+                    archiveArtifacts allowEmptyArchive: true,
+                    artifacts: 'dist/*.whl',
+                    caseSensitive: false,
+                    defaultExcludes: false,
+                    followSymlinks: false,
+                    onlyIfSuccessful: true
                 }
             }
         }
-        stage('Publish') {
+        stage('publish to nexus') {
             steps {
                 script {
-                    // Read POM xml file using 'readMavenPom' step , this step 'readMavenPom' is included in: https://plugins.jenkins.io/pipeline-utility-steps
-                    pom = readMavenPom file: "pom.xml";
-                    // Find built artifact under target folder
-                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
-                    // Print some info from the artifact found
-                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-                    // Extract the path from the File found
-                    artifactPath = filesByGlob[0].path;
-                    // Assign to a boolean response verifying If the artifact name exists
-                    artifactExists = fileExists artifactPath;
-
-                    if(artifactExists) {
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version}";
-
-                        nexusArtifactUploader(
-                            nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL,
-                            nexusUrl: NEXUS_URL,
-                            groupId: pom.groupId,
-                            version: pom.version,
-                            repository: NEXUS_REPOSITORY,
-                            credentialsId: NEXUS_CREDENTIAL_ID,
-                            artifacts: [
-                                // Artifact generated such as .jar, .ear and .war files.
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: artifactPath,
-                                type: pom.packaging],
-
-                                // Lets upload the pom.xml file for additional information for Transitive dependencies
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: "pom.xml",
-                                type: "pom"]
-                            ]
-                        );
-
-                    } else {
-                        error "*** File: ${artifactPath}, could not be found";
-                    }
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: '172.21.0.1:18081',
+                        groupId: 'gpy',
+                        version: '0.1',
+                        repository: 'pypi-internal/',
+                        credentialsId: 'nexus-credentials',
+                        artifacts: [
+                            [artifactId: 'pytest',
+                             classifier: '',
+                             file: 'dist/hello_world-0.0.1-py3-none-any.whl',
+                             type: 'whl']
+                        ]
+                     );
                 }
+              }
             }
         }
     }
-}
