@@ -28,6 +28,7 @@ pipeline {
             }
             steps {
                 script {
+                    git branch: 'main', url: 'https://github.com/znhv/hello_world'
                     sh 'python main.py'
                 }
             }
