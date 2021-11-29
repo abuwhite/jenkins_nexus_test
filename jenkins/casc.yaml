@@ -4,11 +4,11 @@ unclassified:
 
 jobs:
   - script: >
-      multibranchPipelineJob('configuration-as-code') {
-          branchSources {
-              git {
-                  id = 'configuration-as-code'
-                  remote('https://github.com/znhv/sber_test.git')
-              }
-          }
+      job("Sber-CI") {
+         scm {
+           github('znhv/sber_test', 'master')
+         }
+         triggers {
+             cron('/1 * * * *')
+         }
       }

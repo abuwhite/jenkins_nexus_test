@@ -27,16 +27,13 @@ pipeline {
             agent {
                 docker {
                     image 'python:3.8.2'
-                    args '-u root:root'
+                    args '--net=sber_test_prodnetwork -u root:root'
                 }
             }
 
             steps {
                 sh 'pip install twine'
-                sh 'pwd'
-                sh 'ls -la'
-                sh 'cat .pypirc'
-                sh 'twine upload --config-file .pypirc --repository pypi dist/*'
+                sh 'twine upload --config-file .pypirc --repository pypi dist/hello_world-0.0.1-py3-none-any.whl'
             }
         }
     }
