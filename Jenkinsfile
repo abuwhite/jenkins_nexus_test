@@ -26,8 +26,9 @@ pipeline {
         stage('Copy Archive') {
              steps {
                  script {
+                    sh 'env'
                     step ([$class: 'CopyArtifact',
-                        projectName: 'Sber-Test-CI',
+                        projectName: env.JOB_NAME,
                         filter: "dist/*.whl",
                         target: 'Sber']);
                 }
