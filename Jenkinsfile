@@ -23,6 +23,16 @@ pipeline {
                 }
             }
         }
+        stage('Copy Archive') {
+             steps {
+                 script {
+                    step ([$class: 'CopyArtifact',
+                        projectName: 'Sber-Test-CI',
+                        filter: "dist/*.whl",
+                        target: 'Sber']);
+                }
+            }
+        }
         stage('publish to nexus') {
             agent {
                 docker {
@@ -32,7 +42,6 @@ pipeline {
             }
 
             steps {
-                sh 'echo "Build number is ${currentBuild.number}"'
                 sh 'pip install twine'
                 sh 'twine upload --config-file .pypirc --repository pypi /var/jenkins_home/jobs/Sber-Test-CI/dist/hello_world-0.0.1-py3-none-any.whl'
             }

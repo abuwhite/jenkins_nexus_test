@@ -11,6 +11,7 @@ build-timeout:latest
 cloudbees-folder:latest
 configuration-as-code:latest
 credentials-binding:latest
+copyartifact:latest
 locale:latest
 email-ext:latest
 job-dsl:latest
