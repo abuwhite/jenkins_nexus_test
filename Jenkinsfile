@@ -32,8 +32,9 @@ pipeline {
             }
 
             steps {
+                sh 'echo "Build number is ${currentBuild.number}"'
                 sh 'pip install twine'
-                sh 'twine upload --config-file .pypirc --repository pypi dist/hello_world-0.0.1-py3-none-any.whl'
+                sh 'twine upload --config-file .pypirc --repository pypi /var/jenkins_home/jobs/Sber-Test-CI/dist/hello_world-0.0.1-py3-none-any.whl'
             }
         }
     }
