@@ -6,6 +6,7 @@ docker-commons:latest
 docker-java-api:latest
 docker-plugin:latest
 docker-workflow:latest
+docker-custom-build-environment
 build-timeout:latest
 cloudbees-folder:latest
 configuration-as-code:latest

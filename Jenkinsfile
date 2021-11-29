@@ -4,7 +4,7 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'python:2-alpine'
+                    image 'python:3.8.2-alpine'
                 }
             }
 
@@ -24,25 +24,18 @@ pipeline {
             }
         }
         stage('publish to nexus') {
-            steps {
-                script {
-                    nexusArtifactUploader(
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        nexusUrl: '172.21.0.1:18081',
-                        groupId: 'gpy',
-                        version: '0.1',
-                        repository: 'pypi-internal/',
-                        credentialsId: 'nexus-credentials',
-                        artifacts: [
-                            [artifactId: 'pytest',
-                             classifier: '',
-                             file: 'dist/hello_world-0.0.1-py3-none-any.whl',
-                             type: 'whl']
-                        ]
-                     );
+            agent {
+                docker {
+                    image 'python:3.8.2'
+                    args '-u root:root'
                 }
-              }
+            }
+
+            steps {
+                sh 'pip install twine'
+                sh 'cat ~/.pypirc'
+                sh 'twine upload --repository nexus hello_world-0.0.1-py3-none-any.whl'
             }
         }
     }
+}
