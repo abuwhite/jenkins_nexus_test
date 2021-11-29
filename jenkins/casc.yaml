@@ -4,11 +4,15 @@ unclassified:
 
 jobs:
   - script: >
-      job("Sber-CI") {
-         scm {
-           github('znhv/sber_test', 'master')
-         }
-         triggers {
-             cron('/1 * * * *')
-         }
+      pipelineJob('Sber-Test-CI') {
+          definition {
+              cpsScm {
+                  scm {
+                      github('znhv/sber_test')
+                  }
+              }
+          }
+          triggers {
+            cron('*/1 * * * *')
+          }
       }
