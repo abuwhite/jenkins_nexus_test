@@ -4,7 +4,8 @@ pipeline {
         stage('Build') {
             agent {
                 docker {
-                    image 'python:3.8.2-alpine'
+                    image 'python:3.8.2'
+                    args '--net=sber_test_prodnetwork -u root:root'
                 }
             }
 
@@ -24,13 +25,6 @@ pipeline {
             }
         }
         stage('publish to nexus') {
-            agent {
-                docker {
-                    image 'python:3.8.2'
-                    args '--net=sber_test_prodnetwork -u root:root'
-                }
-            }
-
             steps {
                 sh 'pip install twine'
                 sh 'pwd'
