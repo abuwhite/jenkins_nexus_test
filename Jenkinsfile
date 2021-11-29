@@ -33,6 +33,7 @@ pipeline {
 
             steps {
                 sh 'pip install twine'
+                sh 'pwd'
                 sh 'twine upload --config-file .pypirc --repository pypi dist/*'
             }
         }
