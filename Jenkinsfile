@@ -33,8 +33,10 @@ pipeline {
 
             steps {
                 sh 'pip install twine'
-                sh 'cat ~/.pypirc'
-                sh 'twine upload --repository nexus hello_world-0.0.1-py3-none-any.whl'
+                sh 'pwd'
+                sh 'ls -la'
+                sh 'cat .pypirc'
+                sh 'twine upload --config-file .pypirc --repository pypi dist/*'
             }
         }
     }
