@@ -15,22 +15,11 @@ pipeline {
             post {
                 success {
                     archiveArtifacts allowEmptyArchive: true,
-                    artifacts: 'dist/*.whl',
+                    artifacts: 'dist/*whl',
                     caseSensitive: false,
                     defaultExcludes: false,
                     followSymlinks: false,
                     onlyIfSuccessful: true
-                }
-            }
-        }
-        stage('Copy Archive') {
-             steps {
-                 script {
-                    sh 'env'
-                    step ([$class: 'CopyArtifact',
-                        projectName: env.JOB_NAME,
-                        filter: "dist/*.whl",
-                        target: 'Sber']);
                 }
             }
         }
@@ -44,7 +33,7 @@ pipeline {
 
             steps {
                 sh 'pip install twine'
-                sh 'twine upload --config-file .pypirc --repository pypi /var/jenkins_home/jobs/Sber-Test-CI/dist/hello_world-0.0.1-py3-none-any.whl'
+                sh 'twine upload --config-file .pypirc --repository pypi dist/*'
             }
         }
     }
