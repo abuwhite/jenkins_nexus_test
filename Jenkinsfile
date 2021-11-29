@@ -1,14 +1,12 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'python:3.8.2'
+            args '--net=sber_test_prodnetwork -u root:root'
+        }
+    }
     stages {
         stage('Build') {
-            agent {
-                docker {
-                    image 'python:3.8.2'
-                    args '--net=sber_test_prodnetwork -u root:root'
-                }
-            }
-
             steps {
                 git branch: 'main', url: 'https://github.com/znhv/hello_world'
             }
