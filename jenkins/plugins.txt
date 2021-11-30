@@ -29,6 +29,7 @@ pipeline-stage-view:latest
 ssh-slaves:latest
 startup-trigger-plugin:latest
 timestamper:latest
+urltrigger:latest
 workflow-aggregator:latest
 workflow-job:latest
 workflow-cps:latest
