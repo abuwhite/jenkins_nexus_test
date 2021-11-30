@@ -1,36 +1,30 @@
 # Sber Test
 
-Foobar is a Python library for dealing with word pluralization.
+The test task of Sber CI/CD.
 
 ## Installation
 
-
-
-1. Create in web UI of Nexus repository with setup
-```bash
-format - pypi
-type - hosted
-blob store - default
-deployment policy - Allow redeploy
+Start Jenkins and Nexus container.
+```shell
+make start
 ```
+
+Create a PyPi repository via the [Nexus web interface](http://localhost:18081/):
+
+| Format | Type | Blob store | Deployment policy |
+| ------------- | ------------- | ------------- | ------------- |
+| pypi | hosted | default | Allow redeploy |
+
 
 ## Usage
 
 ```shell
-make run-playbook
+make start
 ```
 
-# Getting started
+## Login details for Jenkins and Nexus
 
-To get all docker containers up and running, in __docker-ci-tool-stack__ use:
-
-```
-make up
-```
-
-#### With Docker Mac Native
-
-| *Tool* | *Link* | *Credentials* |
+| Tool | Link | Credentials |
 | ------------- | ------------- | ------------- |
 | Jenkins | http://localhost:18080/ | no login required |
 | Nexus | http://localhost:18081/ | admin/admin123 |

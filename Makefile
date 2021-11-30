@@ -4,5 +4,5 @@ run-playbook:
 build:
 	docker-compose build
 
-up:
+start:
 	docker-compose up
