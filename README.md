@@ -11,9 +11,9 @@ make start
 
 Create a PyPi repository via the [Nexus web interface](http://localhost:18081/)
 
-| Format | Type | Blob store | Deployment policy |
-| ------------- | ------------- | ------------- | ------------- |
-| pypi | hosted | default | Allow redeploy |
+ Format | Type | Name |Blob store | Deployment policy |
+| ------------- | ------------- | ------------- | ------------- | ------------- |
+pypi | hosted | pypi-internal | default | Allow redeploy |
 
 
 ## Usage

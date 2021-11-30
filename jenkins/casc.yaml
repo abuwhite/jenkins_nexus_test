@@ -14,10 +14,14 @@ jobs:
           }
           triggers {
             urlTrigger {
-#                cron('*/1 * * * *')
-
+                cron('*/1 * * * *')
                 url('http://10.5.0.1:18081/repository/pypi-internal/') {
+                    proxy(true)
                     status(202)
+                    timeout(4000)
+                    check('status')
+                    check('etag')
+                    check('lastModified')
                 }
             }
         }
