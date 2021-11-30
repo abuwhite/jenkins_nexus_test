@@ -1,16 +1,36 @@
-## Создать CI/CD используя Ansible, Jenkins, Docker и Nexus
-Написать ansible playbook, при вызове которого будет подниматься docker контейнер с Jenkins, 
-автоматически пулится любой проект из github.com (хоть «Hello world!»), 
-собираться в артефакт и выкладываться в docker контейнер Nexus. Контейнеры можно обернуть в docker-compose.
+# Sber Test
 
-Я как пользователь, после запуска playbook должен увидеть на своей машине по адресам:
-- https://jenkins.example.com – саму сборку. Вход на Jenkins без авторизации.
-- https://nexus.example.com – артефакт сборки из Jenkins. Вход в Nexus без авторизации.
+Foobar is a Python library for dealing with word pluralization.
 
-Если будут какие-либо уточняющие вопросы – обращайся. Telegram: @bbbbmg
+## Installation
 
-1. ~~Поднять Jenkis в docker~~ 
-2. Стянуть проект с Github
-3. Собрать проект в артефакт
-4. Поднять Nexus с артефактами
-5. Обернуть в compose
+
+
+1. Create in web UI of Nexus repository with setup
+```bash
+format - pypi
+type - hosted
+blob store - default
+deployment policy - Allow redeploy
+```
+
+## Usage
+
+```shell
+make run-playbook
+```
+
+# Getting started
+
+To get all docker containers up and running, in __docker-ci-tool-stack__ use:
+
+```
+make up
+```
+
+#### With Docker Mac Native
+
+| *Tool* | *Link* | *Credentials* |
+| ------------- | ------------- | ------------- |
+| Jenkins | http://localhost:18080/ | no login required |
+| Nexus | http://localhost:18081/ | admin/admin123 |

@@ -1,7 +1,10 @@
 networks:
   prodnetwork:
     driver: bridge
-
+    ipam:
+     config:
+       - subnet: 10.5.0.0/16
+         gateway: 10.5.0.1
 volumes:
   nexus-data:
   jenkins-data:
@@ -12,7 +15,8 @@ services:
     ports:
       - "18081:8081"
     networks:
-      - prodnetwork
+      prodnetwork:
+        ipv4_address: 10.5.0.6
     volumes:
       - nexus-data:/nexus-data
   jenkins:
@@ -21,7 +25,8 @@ services:
     ports:
       - "18080:8080"
     networks:
-      - prodnetwork
+      prodnetwork:
+        ipv4_address: 10.5.0.5
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /usr/bin/docker:/usr/bin/docker
