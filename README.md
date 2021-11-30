@@ -4,12 +4,12 @@ The test task of Sber CI/CD.
 
 ## Installation
 
-Start Jenkins and Nexus container.
+Start Jenkins and Nexus container
 ```shell
 make start
 ```
 
-Create a PyPi repository via the [Nexus web interface](http://localhost:18081/):
+Create a PyPi repository via the [Nexus web interface](http://localhost:18081/)
 
 | Format | Type | Blob store | Deployment policy |
 | ------------- | ------------- | ------------- | ------------- |
@@ -17,10 +17,8 @@ Create a PyPi repository via the [Nexus web interface](http://localhost:18081/):
 
 
 ## Usage
+Go to the [Jenkins web interface](http://localhost:18080/) and see Pipelines.
 
-```shell
-make start
-```
 
 ## Login details for Jenkins and Nexus
 
