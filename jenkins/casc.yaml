@@ -17,7 +17,7 @@ jobs:
                 cron('*/1 * * * *')
 
                 url('http://10.5.0.1:18081/repository/pypi-internal/') {
-                    status(202)
+                    status(404)
                     check('status')
                 }
             }
