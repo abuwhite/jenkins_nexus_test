@@ -1,20 +1,20 @@
 jobs:
   - script: >
       pipelineJob('Sber-Test-CI/CD') {
-          definition {
-              cpsScm {
-                  scm {
-                      github('znhv/sber_test')
-                  }
-              }
-          }
-          triggers {
-            urlTrigger {
-                cron('*/2 * * * *')
-                url('http://10.5.0.1:18081/repository/pypi-internal/') {
-                    status(200)
-                    check('status')
-                }
+        definition {
+          cpsScm {
+            scm {
+                github('znhv/sber_test')
             }
           }
+        }
+        triggers {
+          urlTrigger {
+            cron('*/2 * * * *')
+            url('http://10.5.0.1:18081/repository/pypi-internal/') {
+                status(200)
+                check('status')
+            }
+          }
+        }
       }

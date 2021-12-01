@@ -11,21 +11,18 @@ pipeline {
     }
     stages {
 
-        // Build
         stage('Build') {
             steps {
                 git branch: 'main', url: 'https://github.com/znhv/hello_world'
             }
         }
 
-        // Unit Tests
         stage('Test') {
             steps {
                 sh 'python3 -m src'
             }
         }
 
-        // Deploy to Nexus
         stage('Deploy') {
             steps {
                 sh 'pip install build'
