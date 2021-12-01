@@ -20,12 +20,19 @@ pypi | hosted | pypi-internal | default | Allow redeploy |
 
 
 ## Usage
-Go to the [Jenkins web interface](http://localhost:18080/) and see Pipelines.
+Go to the [Jenkins web interface](http://localhost:18080/) and see Pipelines:
 
+![Jenkins stage](imgs/jenkins.png)
+
+
+Nexus 3 repository:
+![Nexus repository](imgs/nexus.png)
 
 ## Options
 
-Configuration as Code - casc.yaml:
+<details>
+  <summary>Configuration as Code — casc.yaml</summary>
+    
 ```shell
 pipelineJob('Sber-Test-CI/CD') {
   definition {
@@ -48,8 +55,11 @@ pipelineJob('Sber-Test-CI/CD') {
   }
 }
 ```
+</details>
 
-Jenkinsfile Pipeline:
+<details>
+  <summary>Pipeline — Jenkinsfile</summary>
+    
 ```shell
 pipeline {
     agent {
@@ -100,6 +110,9 @@ pipeline {
     }
 }
 ```
+</details>
+
+
 
 | Tool | Link | Credentials |
 | ------------- | ------------- | ------------- |

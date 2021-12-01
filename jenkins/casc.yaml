@@ -1,6 +1,10 @@
+unclassified:
+   location:
+     url: http://localhost:18080/
+
 jobs:
   - script: >
-      pipelineJob('Sber-Test-CI/CD') {
+      pipelineJob('Sber Test') {
         definition {
           cpsScm {
             scm {
