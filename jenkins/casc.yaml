@@ -1,10 +1,6 @@
-unclassified:
-  location:
-    url: http://localhost:8080/
-
 jobs:
   - script: >
-      pipelineJob('Sber-Test-CI') {
+      pipelineJob('Sber-Test-CI/CD') {
           definition {
               cpsScm {
                   scm {
@@ -14,15 +10,11 @@ jobs:
           }
           triggers {
             urlTrigger {
-                cron('*/1 * * * *')
+                cron('*/2 * * * *')
                 url('http://10.5.0.1:18081/repository/pypi-internal/') {
-                    proxy(true)
-                    status(202)
-                    timeout(4000)
+                    status(200)
                     check('status')
-                    check('etag')
-                    check('lastModified')
                 }
             }
-        }
+          }
       }

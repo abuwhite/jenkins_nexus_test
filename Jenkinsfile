@@ -10,17 +10,29 @@ pipeline {
       OWNER_NAME   = "Boris Zhenikhov"
     }
     stages {
+
+        // Build
         stage('Build') {
             steps {
                 git branch: 'main', url: 'https://github.com/znhv/hello_world'
             }
         }
+
+        // Unit Tests
         stage('Test') {
             steps {
                 sh 'python3 -m src'
             }
         }
-        stage('Deliver') {
+
+        // Deploy to Nexus
+        stage('Deploy') {
+            steps {
+                sh 'pip install build'
+                sh 'python3 -m build'
+                sh 'pip install twine'
+                sh 'twine upload --config-file .pypirc --repository pypi dist/*'
+            }
             post {
                 success {
                     archiveArtifacts allowEmptyArchive: true,
@@ -30,12 +42,6 @@ pipeline {
                     followSymlinks: false,
                     onlyIfSuccessful: true
                 }
-            }
-            steps {
-                sh 'pip install build'
-                sh 'python3 -m build'
-                sh 'pip install twine'
-                sh 'twine upload --config-file .pypirc --repository pypi dist/*'
             }
         }
     }
