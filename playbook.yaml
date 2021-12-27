@@ -63,4 +63,4 @@
 
     - name: Run application
       docker_compose:
-        project_src: /src/backend
+        project_src: ./

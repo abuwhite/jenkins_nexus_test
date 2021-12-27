@@ -1,4 +1,4 @@
-# Sber CI/CD Test
+# Jenkins test
 
 A solution to a test task that runs two containers 
 with Jenkins and Nexus. After creating a repository in Nexus, 
@@ -33,7 +33,7 @@ Nexus 3 repository:
 <details>
   <summary>Configuration as Code — casc.yaml</summary>
     
-```shell
+```yaml
 pipelineJob('Sber-Test-CI/CD') {
   definition {
     cpsScm {

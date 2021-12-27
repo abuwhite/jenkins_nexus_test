@@ -13,17 +13,13 @@ RUN curl -fsSLO https://get.docker.com/builds/Linux/x86_64/docker-17.04.0-ce.tgz
   && mv docker/docker /usr/local/bin \
   && rm -r docker docker-17.04.0-ce.tgz
 
-RUN groupadd docker
-
-RUN touch /var/run/docker.sock
-
-RUN chown root:docker /var/run/docker.sock
-
-RUN usermod -a -G docker jenkins
+RUN groupadd docker \
+    && touch /var/run/docker.sock \
+    && chown root:docker /var/run/docker.sock \
+    && usermod -a -G docker jenkins \
+    && chmod 666 /var/run/docker.sock
 
 USER jenkins
-
-RUN sudo chmod 666 /var/run/docker.sock
 
 ENV JENKINS_HOME /var/jenkins_home
 ENV JAVA_OPTS -Djenkins.install.runSetupWizard=false

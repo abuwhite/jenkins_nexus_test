@@ -6,7 +6,7 @@ pipeline {
         }
     }
     environment {
-      PROJECT_NAME = "Sber Test"
+      PROJECT_NAME = "Jenkins Test"
       OWNER_NAME   = "Boris Zhenikhov"
     }
     stages {
